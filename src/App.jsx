@@ -9,7 +9,7 @@ const load = () => {
   try { return JSON.parse(localStorage.getItem(STORE)); } catch { return null; }
 };
 
-const VERSION = "v5";
+const VERSION = "v6";
 
 function DebugBar() {
   const [last, setLast] = useState("none yet");
@@ -40,7 +40,7 @@ export default function App() {
 
   useEffect(() => {
     if (!selected) document.querySelector("[data-row]")?.focus();
-  }, [tab, setup, selected]);
+  }, [setup, selected]);
 
   const myChannels = useMemo(() => CHANNELS.filter((c) => tiers?.includes(c.tier)), [tiers]);
   // The key rule: only titles on channels you can watch are ever shown.
