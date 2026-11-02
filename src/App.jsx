@@ -8,6 +8,23 @@ const load = () => {
   try { return JSON.parse(localStorage.getItem(STORE)); } catch { return null; }
 };
 
+const VERSION = "v3";
+
+function DebugBar() {
+  const [last, setLast] = useState("none yet");
+  useEffect(() => {
+    const f = (e) => setLast(`${e.type} key=${e.key} code=${e.keyCode}`);
+    window.addEventListener("keydown", f, true);
+    window.addEventListener("keyup", f, true);
+    window.addEventListener("click", () => setLast("click"), true);
+    return () => {
+      window.removeEventListener("keydown", f, true);
+      window.removeEventListener("keyup", f, true);
+    };
+  }, []);
+  return <div className="debug">{VERSION} | last button: {last}</div>;
+}
+
 export default function App() {
   const [tiers, setTiers] = useState(load);
   const [setup, setSetup] = useState(!load());
@@ -31,10 +48,10 @@ export default function App() {
   );
 
   if (setup) {
-    return <Setup initial={tiers || ["entertainment"]} onDone={(t) => {
+    return <><DebugBar /><Setup initial={tiers || ["entertainment"]} onDone={(t) => {
       localStorage.setItem(STORE, JSON.stringify(t));
       setTiers(t); setSetup(false);
-    }} />;
+    }} /></>;
   }
 
   const tabs = [{ id: "top10", label: "Top 10" }, { id: "all", label: "All" }, ...myChannels.map((c) => ({ id: c.id, label: c.label }))];
@@ -67,6 +84,7 @@ export default function App() {
         ))}
       </main>
       {selected && <Detail t={selected} onClose={() => setSelected(null)} />}
+      <DebugBar />
     </div>
   );
 }
