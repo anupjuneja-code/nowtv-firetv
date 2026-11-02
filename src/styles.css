@@ -1,0 +1,17 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #0b0b10; color: #fff; font-family: system-ui, sans-serif; font-size: 22px; }
+.app { padding: 24px 48px; }
+.tabs { display: flex; gap: 12px; overflow-x: auto; position: sticky; top: 0; background: #0b0b10; padding: 12px 0; z-index: 2; }
+button, .primary { font: inherit; color: inherit; background: #1c1c26; border: 3px solid transparent; border-radius: 10px; padding: 12px 20px; cursor: pointer; text-decoration: none; display: inline-block; }
+button:focus, .primary:focus { outline: none; border-color: #fff; transform: scale(1.05); }
+.tabs .on { background: #3a3aff; }
+h2 { margin: 28px 0 10px; font-size: 26px; }
+.row { display: flex; gap: 16px; overflow-x: auto; padding: 8px 4px; }
+.card { min-width: 220px; height: 130px; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; position: relative; }
+.card.on { background: #3a3aff; }
+.card small { opacity: .7; }
+.rank { position: absolute; top: 4px; right: 12px; font-size: 44px; font-weight: 800; opacity: .35; }
+.modal { position: fixed; inset: 0; background: #0b0b10f2; padding: 80px; z-index: 10; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.primary { background: #3a3aff; }
+.empty { opacity: .7; margin-top: 40px; }
