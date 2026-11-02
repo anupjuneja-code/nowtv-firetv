@@ -1,6 +1,15 @@
 // Simple spatial navigation: every focusable element has data-row / data-col.
 // Arrow keys move focus to the nearest element in that direction.
 export function handleArrowKeys(e) {
+  // Fire TV remote OK/Select button: press whatever is highlighted.
+  if (e.key === "Enter" || e.keyCode === 13 || e.keyCode === 23 || e.key === "Select") {
+    const el = document.activeElement;
+    if (el && el.dataset && el.dataset.row !== undefined) {
+      e.preventDefault();
+      el.click();
+    }
+    return;
+  }
   const dirs = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] };
   const d = dirs[e.key];
   if (!d) return;
@@ -24,6 +33,6 @@ export function handleArrowKeys(e) {
   }
   if (next) {
     next.focus();
-    next.scrollIntoView({ block: "center", inline: "center", behavior: "smooth" });
+    next.scrollIntoView({ block: "center", inline: "center", behavior: "auto" });
   }
 }
