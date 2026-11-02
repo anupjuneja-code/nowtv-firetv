@@ -2,13 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { TIERS, CHANNELS, NOW_SEARCH_URL } from "./data/config.js";
 import { CATALOGUE } from "./data/catalogue.js";
 import { handleArrowKeys } from "./nav.js";
+import { isApp, openNowApp } from "./native.js";
 
 const STORE = "nowguide.tiers";
 const load = () => {
   try { return JSON.parse(localStorage.getItem(STORE)); } catch { return null; }
 };
 
-const VERSION = "v4";
+const VERSION = "v5";
 
 function DebugBar() {
   const [last, setLast] = useState("none yet");
@@ -121,6 +122,13 @@ function Setup({ initial, onDone }) {
 
 function Detail({ t, onClose }) {
   const url = NOW_SEARCH_URL.replace("{title}", encodeURIComponent(t.title));
+  const [msg, setMsg] = useState("");
+  const open = async (e) => {
+    if (!isApp) return; // in a normal browser, fall through to the website link
+    e.preventDefault();
+    const ok = await openNowApp();
+    if (!ok) setMsg("Couldn't find the NOW app. Is it installed on this Fire Stick?");
+  };
   useEffect(() => {
     const k = (e) => { if (e.key === "Escape" || e.key === "Backspace") onClose(); };
     window.addEventListener("keydown", k);
@@ -130,7 +138,9 @@ function Detail({ t, onClose }) {
     <div className="modal">
       <h1>{t.title}</h1>
       <p>{CHANNELS.find((x) => x.id === t.channel)?.label} · {t.genres.join(", ")}</p>
-      <a data-row={100} data-col={0} className="primary" href={url} autoFocus>Open in NOW</a>
+      <a data-row={100} data-col={0} className="primary" href={url} onClick={open} autoFocus>Open NOW app</a>
+      <p>Then look for: <strong>{t.title}</strong> on {CHANNELS.find((x) => x.id === t.channel)?.label}</p>
+      {msg && <p>{msg}</p>}
       <button data-row={101} data-col={0} onClick={onClose}>Back</button>
     </div>
   );
