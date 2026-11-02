@@ -8,7 +8,7 @@ const load = () => {
   try { return JSON.parse(localStorage.getItem(STORE)); } catch { return null; }
 };
 
-const VERSION = "v3";
+const VERSION = "v4";
 
 function DebugBar() {
   const [last, setLast] = useState("none yet");
@@ -17,6 +17,7 @@ function DebugBar() {
     window.addEventListener("keydown", f, true);
     window.addEventListener("keyup", f, true);
     window.addEventListener("click", () => setLast("click"), true);
+    window.addEventListener("error", (e) => setLast("ERROR " + e.message));
     return () => {
       window.removeEventListener("keydown", f, true);
       window.removeEventListener("keyup", f, true);
@@ -49,7 +50,7 @@ export default function App() {
 
   if (setup) {
     return <><DebugBar /><Setup initial={tiers || ["entertainment"]} onDone={(t) => {
-      localStorage.setItem(STORE, JSON.stringify(t));
+      try { localStorage.setItem(STORE, JSON.stringify(t)); } catch {}
       setTiers(t); setSetup(false);
     }} /></>;
   }
