@@ -4,7 +4,7 @@ body { margin: 0; background: #0b0b10; color: #fff; font-family: system-ui, sans
 .app { padding: 24px 48px; }
 .tabs { display: flex; gap: 12px; overflow-x: auto; position: sticky; top: 0; background: #0b0b10; padding: 12px 0; z-index: 2; }
 button, .primary { font: inherit; color: inherit; background: #1c1c26; border: 3px solid transparent; border-radius: 10px; padding: 12px 20px; cursor: pointer; text-decoration: none; display: inline-block; }
-button:focus, .primary:focus { outline: none; border-color: #fff; transform: scale(1.05); }
+button:focus, .primary:focus { outline: none; border-color: #fff; }
 .tabs .on { background: #3a3aff; }
 h2 { margin: 28px 0 10px; font-size: 26px; }
 .row { display: flex; gap: 16px; overflow-x: auto; padding: 8px 4px; }
